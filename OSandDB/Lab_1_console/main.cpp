@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
     cout << endl;
 
     VirtualQuery(firstRegion, &info, sizeof(info));
-    cout << REGION_SIZE << info.RegionSize << endl;
+    cout << REGION_SIZE << (double)info.RegionSize << endl;
 
     CopyMemory(secondRegion, firstRegion, size);
 
