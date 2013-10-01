@@ -2,46 +2,63 @@
 
 MemHeaper::MemHeaper() // Конструктор MemHeaper
 {
+    heap = HeapCreate(HEAP_NO_SERIALIZE | HEAP_GROWABLE, sizeOfHeap, 0);
+}
 
-    heap = HeapCreate(HEAP_NO_SERIALIZE | HEAP_GROWABLE, 0, 0); // Создание кучи
-
-    // Добавить проверку на возможные ошибки !!!
-    // ...
-
+MemHeaper::~MemHeaper()
+{
+    HeapDestroy(heap);
 }
 
 void* MemHeaper::MemAlloc(int size)
 {
-    // Выделение блока памяти
-    return (void*)HeapAlloc(heap, HEAP_NO_SERIALIZE | HEAP_ZERO_MEMORY, size);
+    LPVOID _heap;
+    _heap = HeapAlloc(heap, HEAP_NO_SERIALIZE | HEAP_ZERO_MEMORY, size * sizeof(int));
 
-    // Добавить проверку на возможные ошибки !!!
-    // ...
-
-
-
+    if(!_heap)
+    {
+        MemHeaper::getError();
+        return NULL;
+    }
+    else
+    {
+        return _heap;
+    }
 }
 
-void MemHeaper::MemFree(void* addr)
+void MemHeaper::MemFree(void* address)
 {
-    HeapFree(heap, HEAP_NO_SERIALIZE, (LPVOID) addr);
-
-    // Добавить проверку на возможные ошибки !!!
-    // ...
-
-
+    if(!HeapFree(heap, HEAP_NO_SERIALIZE, (LPVOID) address))
+    {
+        MemHeaper::getError();
+    }
 }
 
 void MemHeaper::MemInfo()
 {
 
-    // Здесь необходимо использовать функцию HeapWalk для получение информации о блоках памяти в куче
-    // ...
 
-    // HeapWalk(...)
-
-    // Добавить проверку на возможные ошибки !!!
-    // ...
 
     return;
+}
+
+void MemHeaper::getError()
+{
+    LPTSTR errorText = NULL;
+    FormatMessage(
+       FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_IGNORE_INSERTS,
+       NULL,
+       GetLastError(),
+       MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+       (LPTSTR)&errorText,
+       0,
+       NULL);
+
+    QString errorMessage = QString::fromWCharArray(errorText);
+
+    QMessageBox messageBox;
+    messageBox.setWindowTitle("Error");
+    messageBox.setText(errorMessage);
+    messageBox.setStandardButtons(QMessageBox::Ok);
+    messageBox.exec();
 }

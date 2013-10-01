@@ -16,7 +16,7 @@ public:
     ~MainWindow();
     
 private slots:
-    void on_pb_start_clicked();
+    void createButton_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -15,7 +15,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pb_start_clicked()
+void MainWindow::createButton_clicked()
 {
 
     // -------------------------------------------------------------------------------------
@@ -30,8 +30,8 @@ void MainWindow::on_pb_start_clicked()
 
 
     // Вывод в textEdit
-    ui->textEdit->append("Первое значение из выделенного региона памяти: " + QString::number(a[0]));
-    ui->textEdit->append("Пятое значение из выделенного региона памяти: " + QString::number(a[5]));
+    ui->_informationEdit->append("Первое значение из выделенного региона памяти: " + QString::number(a[0]));
+    ui->_informationEdit->append("Пятое значение из выделенного региона памяти: " + QString::number(a[5]));
 
 
     my_heap.MemFree((void*)a); // Освобождение блока памяти в куче
