@@ -14,26 +14,111 @@
    <string>Лабораторная работа №2</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="_createButton">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>80</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Выполнить</string>
-    </property>
-   </widget>
    <widget class="QTextEdit" name="_informationEdit">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
+      <x>50</x>
+      <y>20</y>
+      <width>271</width>
+      <height>241</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="_createHeap">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>20</y>
+      <width>141</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Создать кучу</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="_deleteHeap">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>80</y>
+      <width>141</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Удалить кучу</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="_taskDefault">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>140</y>
+      <width>191</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Выделить память из кучи (default)</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="_clearMemory">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>330</y>
+      <width>161</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Освободить память из кучи</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="_allocMemory">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>290</y>
       <width>301</width>
-      <height>51</height>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Выделить память из кучи (индивидуальное задание)</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>290</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Размер выделяемой памяти:</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="_sizeEdit">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>290</y>
+      <width>91</width>
+      <height>31</height>
      </rect>
     </property>
    </widget>

@@ -1,14 +1,26 @@
 #include "memheaper.h"
 
-MemHeaper::MemHeaper() // Конструктор MemHeaper
+MemHeaper::MemHeaper()
 {
-    heap = HeapCreate(HEAP_NO_SERIALIZE | HEAP_GROWABLE, sizeOfHeap, 0);
+    heap = HeapCreate(HEAP_NO_SERIALIZE | HEAP_GROWABLE, SIZE_OF_HEAP, 0);
+
+    if(heap == NULL)
+    {
+        getError();
+    }
 }
+
 
 MemHeaper::~MemHeaper()
 {
-    HeapDestroy(heap);
+    BOOL result = HeapDestroy(heap);
+
+    if(result == FALSE)
+    {
+        getError();
+    }
 }
+
 
 void* MemHeaper::MemAlloc(int size)
 {
@@ -26,21 +38,36 @@ void* MemHeaper::MemAlloc(int size)
     }
 }
 
+
 void MemHeaper::MemFree(void* address)
 {
     if(!HeapFree(heap, HEAP_NO_SERIALIZE, (LPVOID) address))
     {
-        MemHeaper::getError();
+        getError();
     }
 }
 
-void MemHeaper::MemInfo()
+
+QHash<PVOID, DWORD> MemHeaper::MemInfo(int count)
 {
+    PROCESS_HEAP_ENTRY info;
+    info.lpData = NULL;
+    QHash<PVOID, DWORD> data;
+    int i = 0;
 
+    while (HeapWalk(heap, &info))
+    {
+        if(i == count || count > SIZE_OF_HEAP)
+        {
+            break;
+        }
 
+        data.insert(info.lpData, info.cbData);
+    }
 
-    return;
+    return data;
 }
+
 
 void MemHeaper::getError()
 {

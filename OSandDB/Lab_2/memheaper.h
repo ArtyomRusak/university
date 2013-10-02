@@ -4,7 +4,7 @@
 #include "windows.h"
 #include <QMessageBox>
 
-const int sizeOfHeap = 32768;
+const int SIZE_OF_HEAP = 32768;
 
 class MemHeaper
 {
@@ -13,7 +13,7 @@ public:
     ~MemHeaper();
     void* MemAlloc(int size);
     void MemFree(void* addr);
-    void MemInfo();
+    QHash<PVOID, DWORD> MemInfo(int count);
 
 private:
     HANDLE heap;

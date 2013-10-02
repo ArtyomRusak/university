@@ -37,3 +37,53 @@ void MainWindow::createButton_clicked()
     my_heap.MemFree((void*)a); // Освобождение блока памяти в куче
 
 }
+
+void MainWindow::on__createHeap_clicked()
+{
+    heap = new MemHeaper();
+}
+
+void MainWindow::on__deleteHeap_clicked()
+{
+    delete heap;
+}
+
+void MainWindow::on__taskDefault_clicked()
+{
+    if (heap)
+    {
+        ui->_informationEdit->append("Allocated memory for 2 regions.");
+
+        firstRegion = (int*)heap->MemAlloc(sizeOfRegion);
+        if(!firstRegion)
+        {
+            return;
+        }
+
+        secondRegion = (int*)heap->MemAlloc(sizeOfRegion);
+        if(!secondRegion)
+        {
+            return;
+        }
+
+        FillMemory(firstRegion, sizeOfRegion, 0x0F);
+        CopyMemory(secondRegion, firstRegion, sizeOfRegion);
+
+        QString informationAboutRegion;
+        informationAboutRegion + "First members of region: ";
+        for(int i = 0; i < 10; i++)
+        {
+            informationAboutRegion + firstRegion[i] + " ";
+        }
+        ui->_informationEdit->append("");
+
+        heap->MemFree(firstRegion);
+        heap->MemFree(secondRegion);
+
+        ui->_informationEdit->append("Memory was cleared.");
+    }
+    else
+    {
+        QMessageBox::information(this, ERROR_TEXT, ERROR_CREATE_TEXT, QMessageBox::Ok);
+    }
+}
