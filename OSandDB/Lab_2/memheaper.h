@@ -13,6 +13,7 @@ public:
     ~MemHeaper();
     void* MemAlloc(int size);
     void MemFree(void* addr);
+    HANDLE GetHeap();
     QHash<PVOID, DWORD> MemInfo(int count);
 
 private:

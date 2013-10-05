@@ -19,6 +19,10 @@ MemHeaper::~MemHeaper()
     {
         getError();
     }
+    else
+    {
+        heap = NULL;
+    }
 }
 
 
@@ -88,4 +92,9 @@ void MemHeaper::getError()
     messageBox.setText(errorMessage);
     messageBox.setStandardButtons(QMessageBox::Ok);
     messageBox.exec();
+}
+
+HANDLE MemHeaper::GetHeap()
+{
+    return heap;
 }

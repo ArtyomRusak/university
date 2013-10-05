@@ -15,75 +15,103 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::createButton_clicked()
-{
-
-    // -------------------------------------------------------------------------------------
-    // Здесь запрограммировать действия с памятью, соответствующие индивидуальному заданию
-    // -------------------------------------------------------------------------------------
-
-
-    MemHeaper my_heap; // Создание экземпляра класса MemHeaper (создание кучи производится в конструкторе)
-    int* a = (int*)my_heap.MemAlloc(10*sizeof(int)); // Выделение блока памяти в куче
-
-    a[5] = 42; // пятому элементу типа int из выделенного блока присваивается значение 42
-
-
-    // Вывод в textEdit
-    ui->_informationEdit->append("Первое значение из выделенного региона памяти: " + QString::number(a[0]));
-    ui->_informationEdit->append("Пятое значение из выделенного региона памяти: " + QString::number(a[5]));
-
-
-    my_heap.MemFree((void*)a); // Освобождение блока памяти в куче
-
-}
-
 void MainWindow::on__createHeap_clicked()
 {
     heap = new MemHeaper();
+
+    EnableCreation(true);
 }
 
 void MainWindow::on__deleteHeap_clicked()
 {
     delete heap;
+
+    EnableCreation(false);
 }
 
 void MainWindow::on__taskDefault_clicked()
 {
-    if (heap)
+    std::stringstream stream;
+    ui->_informationEdit->append(ALLOC_MEMORY);
+
+    firstRegion = (int*)heap->MemAlloc(sizeOfRegion);
+    if(!firstRegion)
     {
-        ui->_informationEdit->append("Allocated memory for 2 regions.");
+        return;
+    }
 
-        firstRegion = (int*)heap->MemAlloc(sizeOfRegion);
-        if(!firstRegion)
+    secondRegion = (int*)heap->MemAlloc(sizeOfRegion);
+    if(!secondRegion)
+    {
+        return;
+    }
+
+    FillMemory(firstRegion, sizeOfRegion, 0x0F);
+    CopyMemory(secondRegion, firstRegion, sizeOfRegion);
+
+    stream << "First members of region: ";
+    for(int i = 0; i < 10; i++)
+    {
+        stream << firstRegion[i] << " ";
+    }
+    stream << std::endl;
+    ui->_informationEdit->append(QString(stream.str().c_str()));
+
+    heap->MemFree(firstRegion);
+    heap->MemFree(secondRegion);
+
+    ui->_informationEdit->append(MEMORY_CLEAR_TEXT);
+}
+
+void MainWindow::EnableCreation(BOOL check)
+{
+    ui->_allocMemory->setEnabled(check);
+    ui->_clearMemory->setEnabled(check);
+    ui->_deleteHeap->setEnabled(check);
+    ui->_taskDefault->setEnabled(check);
+    ui->_sizeEdit->setEnabled(check);
+    ui->_createHeap->setEnabled(!check);
+}
+
+void MainWindow::on__allocMemory_clicked()
+{
+    int size = ui->_sizeEdit->toPlainText().toInt();
+    if(size != 0)
+    {
+        dataForTask = (int*)heap->MemAlloc(size);
+        //FillMemory(dataForTask, size, 0x7B);
+        for(int i = 0; i < size; i++)
         {
-            return;
+            dataForTask[i] = 0x7B;
         }
 
-        secondRegion = (int*)heap->MemAlloc(sizeOfRegion);
-        if(!secondRegion)
+        std::stringstream stream;
+        stream << "Elements in allocated memory : ";
+        for(int i = 0; i < size; i++)
         {
-            return;
+            stream << dataForTask[i] << " ";
+            //ui->_informationEdit->append(QString::number(dataForTask[i]));
         }
+        stream << std::endl;
 
-        FillMemory(firstRegion, sizeOfRegion, 0x0F);
-        CopyMemory(secondRegion, firstRegion, sizeOfRegion);
-
-        QString informationAboutRegion;
-        informationAboutRegion + "First members of region: ";
-        for(int i = 0; i < 10; i++)
-        {
-            informationAboutRegion + firstRegion[i] + " ";
-        }
-        ui->_informationEdit->append("");
-
-        heap->MemFree(firstRegion);
-        heap->MemFree(secondRegion);
-
-        ui->_informationEdit->append("Memory was cleared.");
+        ui->_informationEdit->append(QString(stream.str().c_str()));
+        stream.clear();
     }
     else
     {
-        QMessageBox::information(this, ERROR_TEXT, ERROR_CREATE_TEXT, QMessageBox::Ok);
+        QMessageBox::information(this, WARNING, ERROR_NUMBERS, QMessageBox::Ok);
+    }
+}
+
+void MainWindow::on__clearMemory_clicked()
+{
+    if(HeapValidate(heap->GetHeap(), HEAP_NO_SERIALIZE, dataForTask))
+    {
+        heap->MemFree(dataForTask);
+        ui->_informationEdit->append(MEMORY_CLEAR_TEXT);
+    }
+    else
+    {
+        QMessageBox::information(this, WARNING, ERROR_ALLOC_MEMORY, QMessageBox::Ok);
     }
 }
