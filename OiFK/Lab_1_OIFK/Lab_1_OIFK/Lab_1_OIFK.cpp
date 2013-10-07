@@ -60,6 +60,24 @@ int main() {
 	cout << changeValue() << endl;
 	cout << sizeof(pointer) << endl;
 
+	cout << "isPower2" << endl;
+	cout << (int)isPower2(128) << endl;
+	if(isPower2(128))
+	{
+		cout << "Yes! This number is a grade of 2" << endl;
+	}
+	else
+	{
+		cout << "No! This number is not a grade of 2!" << endl;
+	}
+
+	cout << "------------" << endl;
+	b = -115;
+	int ls_result, n;
+	n = 4;
+	ls_result = logicalShift(b, n);
+	cout << "logicalShift()" << endl;
+	cout << logicalShift(-115, 4) << endl;
 	return 0;
 }
 

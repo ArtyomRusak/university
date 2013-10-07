@@ -57,8 +57,19 @@ char getByte(int x, char n)
 *   Legal ops: ~ & ^ | + << >>
 *   Max ops: 20
 */
-int logicalShift(int x, char n) {
-	return 2;
+int logicalShift(int x, char n) 
+{
+	if(n >= 1 && n < 32)
+	{
+		int mask = 0x80000000;
+		mask = (mask) >> (n-1);
+		int result = (x >> n) & (~mask);
+		return result;
+	}
+	else 
+	{
+		return -1;
+	}
 }
 
 /*
@@ -139,6 +150,21 @@ char addOK(int x, int y)
 *   Legal ops: ! ~ & ^ | + << >>
 *   Max ops: 20
 */
-int isPower2(int x) {
-	return 2;
+char isPower2(char x) 
+{
+	char result = 0;
+	char mask = 0x01;
+	for (int i = 0; i < 8; i++)
+	{
+		result += (x >> i) & mask;
+	}
+
+	if (result == 1)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
 }  

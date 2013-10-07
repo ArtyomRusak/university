@@ -130,7 +130,8 @@ int withinArray(int * intArray, int size, int * ptr)
 * turn 0 into 1 and vice versa) and the rest left unchanged. Consider
 * the indices of x to begin with the low-order bit numbered as 0.
 */
-int invert(int x, int p, int n) {
-	// TODO
+int invert(int x, int p, int n) 
+{
+	
 	return 2;
 }

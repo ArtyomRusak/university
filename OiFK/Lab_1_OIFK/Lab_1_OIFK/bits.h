@@ -13,7 +13,7 @@ int test_sign(int);
 char getByte(int, char);
 int test_getByte(int, int);
 // Rating: 3
-int logicalShift(int, int);
+int logicalShift(int, char);
 int test_logicalShift(int, int);
 int addOK(int, int);
 int test_addOK(int, int);
@@ -24,5 +24,4 @@ int test_bang(int);
 char myconditional(char, char, char);
 int test_conditional(int, int, int);
 // Extra Credit: Rating: 4
-int isPower2(int);
-int test_isPower2(int); 
+char isPower2(char x);
