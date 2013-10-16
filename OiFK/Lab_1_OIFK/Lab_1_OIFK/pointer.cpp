@@ -10,9 +10,9 @@ int intSize() {
 
 	intPtr1 = &intArray[0];
 	intPtr2 = &intArray[1];
-	int result = (unsigned long)intPtr2 ^ (unsigned long)intPtr1;
+	int result = (unsigned long)intPtr2 - (unsigned long)intPtr1;
 
-	return result;
+    return result < 0 ? -result : result;
 }
 
 /*
@@ -25,8 +25,8 @@ int doubleSize() {
 
 	doubPtr1 = &doubArray[0];
 	doubPtr2 = &doubArray[1];
-	int result = (unsigned long)doubPtr1 ^ (unsigned long)doubPtr2;
-	return result;
+	int result = (unsigned long)doubPtr1 - (unsigned long)doubPtr2;
+	return result < 0 ? -result : result;
 }
 
 /*
@@ -39,9 +39,9 @@ int pointerSize() {
 
 	ptrPtr1 = &ptrArray[0];
 	ptrPtr2 = &ptrArray[1];
-	int result = (unsigned long)ptrPtr1 ^ (unsigned long)ptrPtr2;
+	int result = (unsigned long)ptrPtr1 - (unsigned long)ptrPtr2;
 
-	return result;
+    return result < 0 ? -result : result;
 }
 
 /*
