@@ -104,10 +104,11 @@ int withinArray(int * intArray, int size, int * ptr)
 {
 	bool check = false;
 	int addressOfPointer = (unsigned long) ptr;
+    int address = (unsigned long) intArray;
 
 	for (int i = 0; i < size; i++)
 	{
-		int address = (unsigned long) (intArray + i);
+        address = address + (i * 4);
 
 		if (address == addressOfPointer)
 		{
